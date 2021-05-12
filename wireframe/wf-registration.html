@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>National Park Trip Planner</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet"
+    type="text/css">
+  <link href="../src/components/FavForm.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+  <main>
+    <div class="FavPark-form-container">
+      <form class="FavPark-form">
+        <h2>
+          Please Enter Registration Infomation
+        </h2>
+
+        <label for="username" class="label"> Username:</label>
+        <input type="text" id="username" name="username" placeholder="Username" required="">
+        <!-- value="testuser1" -->
+        <br>
+
+        <label for="password1" class="label">Password:</label>
+        <input type="password" id="password1" name="password1" placeholder="Password" required="">
+        <!-- value="Password1" -->
+        <br>
+
+        <label for="password2" class="label">Re-type Password:</label>
+        <input type="password" id="password2" name="password2" placeholder="Password" required="">
+        <!-- value="Password2" -->
+        <br>
+
+
+        <div class="error-message-login"></div>
+
+        <div class="filter-button-section">
+          <div class="FavPark-form-buttons-wrapper">
+            <a href="wf-main.html">
+              <button type="submit">Submit</button>
+            </a>
+            <a href="wf-main.html">
+              <button type="button">Cancel</button>
+            </a>
+          </div>
+        </div>
+      </form>
+  </main>
+
+</body>
+
+</html>

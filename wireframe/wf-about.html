@@ -1,0 +1,112 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>National Park Trip Planner</title>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet"
+		type="text/css">
+	<!-- <link href="index2.css" rel="stylesheet" type="text/css" /> -->
+	<link href="../src/App.css" rel="stylesheet" type="text/css">
+</head>
+
+
+<body data-new-gr-c-s-check-loaded="14.1001.0" data-gr-ext-installed="">
+	<header class="bg-callout">
+
+		<h1>National Park Trip Planner</h1>
+
+		<div class='no-login'>
+			<h2 class="app-title"> All The Information You Need to Know About Your Favorite National Park in One Easy to Use
+				App, Narrow Down Your Search by State And Activities; Plan your trip by creating your own <a
+					href="wf-registration.html" style="color:white">user account</a>
+			</h2>
+		</div>
+
+		<!-- about -->
+		<form class="cls-form" id="js-form">
+			<div class="center wrap">
+				<div class="field-group">
+
+					<div class="field">
+						<div id="state-options-file" class="main-label">
+							<label for="js-state-name" class="main-label"> State Name </label>
+							<select class="itemRight field-qty-num" id="js-state-name">
+								<option value="AL">Alabama</option>
+								<option value="AK">Alaska</option>
+								<option value="AZ">Arizona</option>
+								<option value="AR">Arkansas</option>
+								<option value="WA">Washington</option>
+								<option value="WV">West Virginia</option>
+								<option value="WI">Wisconsin</option>
+								<option value="WY">Wyoming</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="field">
+						<div id="activities-options-file">
+							<label for="id_field_states" class="main-label"> Activities</label>
+							<select class="itemRight field-qty-num" id="js-activities">
+								<option value="All">-- All Activities --</option>
+								<option value="Biking">Biking</option>
+								<option value="Birdwatching">Birdwatching</option>
+								<option value="Boating">Boating</option>
+								<option value="Camping">Camping</option>
+								<option value="Winter Sports">Winter Sports</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="filter-button-section">
+						<button type="reset" id="reset">Reset</button>
+						<input type="submit" id="submit" value="Submit">
+					</div>
+
+					<div id="js-error-message-main" class="error-message-main">
+					</div>
+
+				</div>
+
+			</div>
+		</form>
+	</header>
+
+	<!-- about page -->
+	<div class="nav-main-container">
+		<div class="nav-links">
+			<div>
+				<a href="wf-main.html">Home</a>
+				<a href="wf-login.html">Login</a>
+				<a href="wf-registration.html">Registration</a>
+			</div>
+		</div>
+	</div>
+
+	<main>
+		<section id="js-results" class="bg-main-display cls-results">
+			<div class="about-page-containter">
+				<div id="about-page-content"></div>
+			</div>
+		</section>
+	</main>
+
+	<script src=" https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+		crossorigin="anonymous">
+		</script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cuid/1.3.8/browser-cuid.min.js"></script>
+	<script>
+		$(function ()
+		{
+			$("#state-options-file").load("../state.html");
+			$("#activities-options-file").load("../activities.html");
+			$("#about-page-content").load("wf-about-content.html");
+		});
+	</script>
+
+	<!-- <script src="index.js">	</script> -->
+
+</body>
+
+</html>

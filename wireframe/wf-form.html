@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>National Park Trip Planner</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet"
+    type="text/css">
+  <!-- <link href="index2.css" rel="stylesheet" type="text/css" /> -->
+  <link href="../src/components/FavForm.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+  <main>
+    <div class="FavPark-form-container">
+      <form class="FavPark-form">
+
+        <h2>
+          Add Note For<br>
+          Park C
+        </h2>
+        <hr>
+
+
+        <label for="NoteName">Stop Number</label>
+
+        <div class="FavPark-form-buttons-wrapper">
+          <button type="button">Insert Before</button>
+        </div>
+
+        <select required="" id="AddNote-folder" name="AddNote-folder">
+          <option value="">Choose a Park</option>
+          <option value="1">1 - Park A</option>
+          <option value="2">2 - Park B</option>
+        </select>
+
+        <div class="FavPark-form-buttons-wrapper">
+          <button type="button">Insert After</button>
+        </div>
+
+        <div class="FavPark-form-buttons-wrapper">
+          <button type="button">FIrst</button>
+          <button type="button">Last</button>
+        </div>
+        <P>Stop Nubmer Selected is : 3</P>
+        <hr>
+        <label for="content">Rating</label>
+
+        <div style="text-align:center">
+          <select required="" id="FavForm-Rating" name="FavForm-Rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+
+          <hr>
+          <label for="content">Note</label>
+          <textarea id="content" name="content" rows="4" cols="50" spellcheck="false"></textarea>
+
+          <div class="FavPark-form-buttons-wrapper">
+            <button type="submit">Submit</button>
+            <a href="wf-main.html">
+              <button type="button">Cancel</button>
+            </a>
+          </div>
+
+      </form>
+    </div>
+  </main>
+
+</body>
+
+</html>
