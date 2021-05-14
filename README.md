@@ -50,7 +50,7 @@ The APP's inspiration came from my love of nature and the outdoors, and the unsp
 ![about_page](src/images/readme/about_page.jpg)
 
 ## Register for a new user account <<<
-![Register_for_a_new_user_account](src/images/readme/Register_for_a_new_user_account.jpg)
+![Register_for_a_new_user_account](src/images/readme/register_for_a_new_user_account.jpg)
 
 ## Login as user 'Demo' <<<
 ![login_as_user_demo_page](src/images/readme/login_as_user_demo_page.jpg)

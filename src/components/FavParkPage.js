@@ -22,7 +22,7 @@ class FavParkPage extends Component {
     const { favParks, userRec } = this.context;
 
     // sql
-    const userFavParks = findFavParksForUser(favParks, userRec.userid);
+    const userFavParks = findFavParksForUser(favParks, userRec.id);
 
     const parkCodeList = userFavParks.map(park => park.parkCode);
     parkCodeList.join(',');

@@ -9,6 +9,8 @@ import LoginPage from './components/LoginPage';
 import RegistrationPage from './components/RegistrationPage';
 import AddFavNote from './components/AddFavNote';
 import VideoPage from './components/VideoPage';
+import config from './config';
+
 import STORE from './STORE'
 import { findUserRecByUsername } from './components/Helpers';
 import "./App.css";
@@ -20,7 +22,8 @@ class App extends Component {
   state = {
     fetchParkData: {},
 
-    users: STORE.users,
+    users: [],
+    // users: STORE.users,
     favParks: STORE.favParks,
     stateOptions: STORE.stateOptions,
     activityOptions: STORE.activityOptions,
@@ -64,7 +67,6 @@ class App extends Component {
     // this.state.activity = activity;
   }
 
-
   RegistrationCB = (username, password, idx) => {
     let currentUser = {
       // this id could be generate by sql 
@@ -96,8 +98,8 @@ class App extends Component {
     // store information to database
   }
 
-  LoginCB = (username, password) => {
 
+  LoginCB = (username, password) => {
     // initialzie order by buttons, for new user.
     var initSelect = JSON.parse(JSON.stringify(this.state.favOrderByOptoins));
     for (let idx = 0; idx < initSelect.length; idx++)
@@ -106,6 +108,7 @@ class App extends Component {
 
     // for getting the favPark ids.
     const userRec = findUserRecByUsername(this.state.users, username);
+    // const userRec = this.fetchUserRecByUsername(username);
 
     this.setState({
       username: username,
@@ -210,8 +213,20 @@ class App extends Component {
 
   }
 
+  async fetchUsers(username) {
+    //   const response = await fetch('http://localhost:8000/users');
+    const response = await fetch(`${config.API_ENDPOINT}/users`);
+    const users = await response.json();
+    return users;
+  }
+
+
   componentDidMount() {
     const { stateCode, activity } = this.state;
+
+    this.fetchUsers().then(users => {
+      this.setState({ users: users })
+    });
     this.fetchParkInfos(stateCode, activity, 20);
   }
 
