@@ -8,6 +8,9 @@ class RegistrationPage extends Component {
 
   state = {
     errorMsg: "",
+    username: "",
+    password1: "",
+    password2: ""
   }
 
   static defaultProps = {
@@ -17,13 +20,11 @@ class RegistrationPage extends Component {
 
   };
 
-
   updateUsername(username) {
     this.setState({
       username: username,
       errorMsg: "",
     })
-
   }
 
   updatePassword1(password1) {
@@ -48,6 +49,7 @@ class RegistrationPage extends Component {
 
     e.preventDefault();
     const { username, password1, password2 } = this.state;
+
 
     if (username === "")
     {
@@ -109,8 +111,8 @@ class RegistrationPage extends Component {
     const { errorMsg } = this.state;
     return (
       <main>
-        <div class="FavPark-form-container">
-          <form class="FavPark-form"
+        <div className="FavPark-form-container">
+          <form className="FavPark-form"
             onSubmit={this.handleSubmit}
           >
             <h2>
@@ -118,19 +120,19 @@ class RegistrationPage extends Component {
               </h2>
 
 
-            <label for="username" class="label"> Username:</label>
+            <label htmlFor="username" className="label"> Username:</label>
             <input type="text" id="username" name="username"
               placeholder="Username"
               onChange={(e) => this.updateUsername(e.target.value)}
               required="" />
             <br />
 
-            <label for="password1" class="label">Password:</label>
+            <label htmlFor="password1" className="label">Password:</label>
             <input type="password" id="password1" name="password1" placeholder="Password"
               onChange={(e) => this.updatePassword1(e.target.value)}
               required="" />
             <br />
-            <label for="password2" class="label">Re-type Password:</label>
+            <label htmlFor="password2" className="label">Re-type Password:</label>
             <input type="password" id="password2" name="password2"
               placeholder="Password"
               onChange={(e) => this.updatePassword2(e.target.value)}
@@ -138,10 +140,10 @@ class RegistrationPage extends Component {
             <br />
 
             <br />
-            <div class="error-message-login">{errorMsg}</div>
+            <div className="error-message-login">{errorMsg}</div>
             <br />
-            <div class="filter-button-section">
-              <div class="FavPark-form-buttons-wrapper">
+            <div className="filter-button-section">
+              <div className="FavPark-form-buttons-wrapper">
                 <button type="submit">Submit</button>
                 <button type='button' onClick={this.handleCancel}>
                   Cancel</button>

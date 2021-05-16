@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import MainContext from '../MainContext';
 import '../App.css'
 import './FavForm.css'
+import config from '../config';
+
 
 class LoginPage extends Component {
   static contextType = MainContext;
@@ -12,6 +14,7 @@ class LoginPage extends Component {
     this.state = {
       username: "",
       password: "",
+      usersDB: [],
       errorMsg: "",
     };
   }
@@ -40,12 +43,55 @@ class LoginPage extends Component {
     this.props.history.push('/')
   };
 
+  // start up fetch record, 
+  async fetchUsers(username, password) {
+    // try
+    // {
+    const response = await fetch(`${config.API_ENDPOINT}/users`);
+    const users = await response.json();
+    return (users);
+
+    // } catch (status)
+    // {
+    // }
+  }
+
+  checkPassword(users, username, password) {
+    let passwordMatch = 0;
+    let idx = 0;
+    for (idx = 0; idx < users.length; idx++)
+    {
+      if (users[idx].username === username)
+      {
+        if (users[idx].password === password)
+        {
+          passwordMatch = 1;
+          return (users[idx]);
+        }
+      }
+    }
+    return (0);
+  }
+
+  processPassword(userRec) {
+    if (userRec)
+    {
+      this.context.LoginCB(userRec);
+      this.props.history.push("/");
+    } else
+    {
+      this.setState({
+        errorMsg: 'Invalid Password, Please Try Again',
+      })
+      return;
+    }
+  }
+
   handleSubmit = (e) => {
     const { users } = this.context;
     const { username, password } = this.state;
-
-
     e.preventDefault();
+
 
     if (username === "")
     {
@@ -63,30 +109,17 @@ class LoginPage extends Component {
       return;
     }
 
-    let passwordMatch = 0;
-    for (let idx = 0; idx < users.length; idx++)
-    {
-      if (users[idx].username === username)
-      {
-        if (users[idx].password === password)
-        {
-          passwordMatch = 1;
-          break;
-        }
-      }
-    }
-    if (passwordMatch)
-    {
-      this.context.LoginCB(username, password);
-      this.props.history.push("/");
-    } else
-    {
-      this.setState({
-        errorMsg: 'Invalid Password, Please Try Again',
-      })
-      return;
-    }
+    let userRec = {};
+    if (userRec = this.checkPassword(users, username, password))
+      this.processPassword(userRec)
+
+    this.fetchUsers(username, password).then(usersDB => {
+      if (userRec = this.checkPassword(usersDB, username, password))
+        this.processPassword(userRec)
+    });
+    return;
   }
+
 
   render() {
 

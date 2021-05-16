@@ -48,7 +48,7 @@ class FavParkList extends Component {
     const { dataList, history } = this.props;
     const { favParks, userRec, favOrderByBtnLabel, favOrderBySortName } = this.context;
 
-    const userFavParks = findFavParksForUser(favParks, userRec.id);
+    const userFavParks = findFavParksForUser(favParks, userRec.userid);
     let sortedUserFavParks = userFavParks.slice();
     sortedUserFavParks.sort(this.sortObjectArray('parkNumber'));
 

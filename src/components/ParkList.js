@@ -28,7 +28,7 @@ class ParkList extends Component {
 
     const dataLen = fetchParkData.data.length;
     let userFavParks = {};
-    if (logInState) userFavParks = findFavParksForUser(favParks, userRec.id);
+    if (logInState) userFavParks = findFavParksForUser(favParks, userRec.userid);
 
 
     return (

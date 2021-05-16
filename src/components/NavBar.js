@@ -31,7 +31,7 @@ class NavBar extends Component {
       )
     } else
     {
-      const userFavParks = findFavParksForUser(favParks, userRec.id);
+      const userFavParks = findFavParksForUser(favParks, userRec.userid);
       let numFavParks = userFavParks.length;
       return (
         <>

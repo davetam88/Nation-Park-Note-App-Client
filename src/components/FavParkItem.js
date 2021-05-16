@@ -27,7 +27,7 @@ class FavParkItem extends Component {
     {
       let favParkTmp = userFavParks[idx];
       if ((favParkTmp.parkCode === data.parkCode) &&
-        (favParkTmp.userid === userRec.id))
+        (favParkTmp.userid === userRec.userid))
       {
         return favParkTmp;
       }

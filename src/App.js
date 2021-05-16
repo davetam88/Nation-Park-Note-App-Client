@@ -12,7 +12,7 @@ import VideoPage from './components/VideoPage';
 import config from './config';
 
 import STORE from './STORE'
-import { findUserRecByUsername } from './components/Helpers';
+
 import "./App.css";
 
 class App extends Component {
@@ -22,11 +22,13 @@ class App extends Component {
   state = {
     fetchParkData: {},
 
-    users: [],
-    // users: STORE.users,
+    // users: [],
+    users: STORE.users,
     favParks: STORE.favParks,
     stateOptions: STORE.stateOptions,
     activityOptions: STORE.activityOptions,
+
+
     favOrderByOptoins: STORE.favOrderByOptoins,
 
     favOrderByBtnLabel: "Park Number",
@@ -68,13 +70,22 @@ class App extends Component {
   }
 
   RegistrationCB = (username, password, idx) => {
-    let currentUser = {
+    let currentUserMem = {
       // this id could be generate by sql 
-      userid: this.state.users.length + 1,
+      // userid: this.state.users.length + 1,
       username: username,
       password: password,
       favParkIds: [],
     }
+
+    let currentUserDB = {
+      // this id could be generate by sql 
+      userid: this.state.users.length + 1,
+      username: username,
+      password: password,
+    }
+
+    this.addNewUser(currentUserDB);
 
     // const userRec = findUserRecByUsername(this.state.users, username);
     // initialzie order by buttons, for new user.
@@ -87,10 +98,10 @@ class App extends Component {
     this.setState({
       users: [
         ...this.state.users,
-        currentUser
+        currentUserMem
       ],
       username: username,
-      userRec: currentUser,
+      userRec: currentUserMem,
       logInState: true,
       favOrderByOptoins: initSelect,
       favOrderBySelected: 0,
@@ -99,7 +110,8 @@ class App extends Component {
   }
 
 
-  LoginCB = (username, password) => {
+  LoginCB = (userRec) => {
+
     // initialzie order by buttons, for new user.
     var initSelect = JSON.parse(JSON.stringify(this.state.favOrderByOptoins));
     for (let idx = 0; idx < initSelect.length; idx++)
@@ -107,18 +119,17 @@ class App extends Component {
     initSelect[0].selected = 1;
 
     // for getting the favPark ids.
-    const userRec = findUserRecByUsername(this.state.users, username);
+    // const userRec = findUserRecByUsername(this.state.users, username);
     // const userRec = this.fetchUserRecByUsername(username);
 
     this.setState({
-      username: username,
-      password: password,
+      username: userRec.username,
+      password: userRec.password,
       logInState: true,
       favOrderByOptoins: initSelect,
       favOrderBySelected: 0,
       userRec: userRec
     })
-    // store information to database
   }
 
 
@@ -213,20 +224,23 @@ class App extends Component {
 
   }
 
-  async fetchUsers(username) {
+  async addNewUser(userRec) {
     //   const response = await fetch('http://localhost:8000/users');
-    const response = await fetch(`${config.API_ENDPOINT}/users`);
-    const users = await response.json();
-    return users;
+    const response = await fetch(`${config.API_ENDPOINT}/users`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(userRec),
+    })
+    const temp = await response.json();
+    return temp;
   }
-
 
   componentDidMount() {
     const { stateCode, activity } = this.state;
+    // try catch 
 
-    this.fetchUsers().then(users => {
-      this.setState({ users: users })
-    });
     this.fetchParkInfos(stateCode, activity, 20);
   }
 
@@ -288,8 +302,8 @@ class App extends Component {
   }
 
 
-
   render() {
+
     const contextValue = {
       history: this.props.history,
       fetchParkData: this.state.fetchParkData,
