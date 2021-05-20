@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import MainContext from '../MainContext';
 import '../App.css'
 import './FavForm.css'
+import { findUserRecByUsername } from './Helpers';
+import config from '../config';
 
 class RegistrationPage extends Component {
   static contextType = MainContext;
@@ -45,9 +47,16 @@ class RegistrationPage extends Component {
     this.props.history.push('/')
   };
 
+  async fetchUsers() {
+    const response = await fetch(`${config.API_ENDPOINT}/users`);
+    const users = await response.json();
+    return (users);
+  }
+
   handleSubmit = (e) => {
 
     e.preventDefault();
+    const { users } = this.context;
     const { username, password1, password2 } = this.state;
 
 
@@ -75,37 +84,39 @@ class RegistrationPage extends Component {
       return;
     }
 
+
     if (password1 === password2)
     {
       const password = password1;
-      let usernametaken = false;
-      let idx = 0;
-      this.context.users.forEach(list => {
-        idx++;
-        if (list.username === username)
+
+      // check in mem users recs 
+      if (findUserRecByUsername(users, username))
+      {
+        this.setState({
+          errorMsg: "Username Already Taken, Please Try Other."
+        })
+        return;
+      }
+
+      // check DB users recs 
+      this.fetchUsers(username, password).then(usersDB => {
+
+        if ((usersDB) && findUserRecByUsername(usersDB, username))
         {
           this.setState({
-            errorMsg: "Username Already Taken, Please Try Other.",
+            errorMsg: "Username Already Taken, Please Try Other."
           })
-          usernametaken = true;
+          return;
+        } else
+        {
+          const newUserid = users.length + usersDB.length;
+          this.context.RegistrationCB(username, password, newUserid);
+          this.props.history.push("/");
           return;
         }
-      })
-      if (!usernametaken)
-      {
-        this.context.RegistrationCB(username, password, idx);
-        this.props.history.push("/");
-      }
-      // post to api
-    } else
-    {
-      this.setState({
-        errorMsg: "Password And Re-type Password Do No Match, Please Try Again",
-      })
-      return;
+      });
     }
   }
-
 
   render() {
     const { errorMsg } = this.state;

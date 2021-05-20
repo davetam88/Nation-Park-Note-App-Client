@@ -12,7 +12,7 @@ import VideoList from './VideoList';
 import VIDEO_DATA from "../VIDEO_DATA";
 
 export default function VideoPage(props) {
-  const { parkName } = props;
+  const { parkname } = props;
 
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
@@ -20,14 +20,14 @@ export default function VideoPage(props) {
 
   useEffect(() => {
 
-    let parkNameTemp = parkName;
-    if (!parkName)
+    let parknameTemp = parkname;
+    if (!parkname)
     {
-      parkNameTemp = localStorage.getItem("park");
+      parknameTemp = localStorage.getItem("park");
     }
     const api_key = 'AIzaSyBGEUctjgxxWPlw7PsY4TaLe01zwsGg3p0'; // 2 
     const searchURL = `https://www.googleapis.com/youtube/v3/search`;
-    const searchString = parkNameTemp.replace(/ /g, "+");
+    const searchString = parknameTemp.replace(/ /g, "+");
     let maxResults = 4; // don't get too many
 
     const params = {
@@ -59,7 +59,7 @@ export default function VideoPage(props) {
           setError(errorMsg)
         });
     }
-  }, [parkName]);
+  }, [parkname]);
 
   if (data || error)
   {
@@ -84,7 +84,7 @@ export default function VideoPage(props) {
               }}>{error}</p>
               :
               <VideoList history={props.history} data={data}
-                parkName={parkName} />
+                parkname={parkname} />
             }
           </section>
         </main>

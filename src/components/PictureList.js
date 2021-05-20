@@ -7,22 +7,22 @@ class PictureList extends Component {
   static contextType = MainContext;
 
   render() {
-    const { parkName, parkData, doFavPage, history } = this.props;
+    const { parkname, parkdata, doFavPage, history } = this.props;
 
-    if (Object.keys(parkData).length === 0)
+    if (Object.keys(parkdata).length === 0)
       return null;
 
-    const imageLen = parkData.images.length;
+    const imageLen = parkdata.images.length;
 
     return (
       <>
         <h3 className="overlay-section-heading">
-          There are <em>{imageLen}</em> Pictures for <em>{parkName}</em>, Enjoy !!
+          There are <em>{imageLen}</em> Pictures for <em>{parkname}</em>, Enjoy !!
         </h3>
         <div className="group-container wrap">
           <div className="group-container wrap">
             {
-              parkData.images.map((data, idx) => (
+              parkdata.images.map((data, idx) => (
                 <PictureItem key={idx}
                   history={history}
                   doFavPage={doFavPage}

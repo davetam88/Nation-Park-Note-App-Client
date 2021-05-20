@@ -9,7 +9,7 @@ class MainControlForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // stateCode: "",
+      // statecode: "",
       // activity: "",
     };
   }

@@ -2,7 +2,7 @@ import React from 'react'
 
 
 const MainContext = React.createContext({
-  fetchParkData: {},
+  fetchparkdata: {},
   users: [],
   favParks: [],
 
@@ -15,10 +15,10 @@ const MainContext = React.createContext({
   error: null,
 
   activity: "",
-  stateCode: "",
-  parkName: "",
-  parkCode: "",
-  parkData: "",
+  statecode: "",
+  parkname: "",
+  parkcode: "",
+  parkdata: "",
 
   username: "",
   password: "",
@@ -30,7 +30,7 @@ const MainContext = React.createContext({
   displayFavPage: "",
 
   ActivityCB: () => { },
-  StateCodeCB: () => { },
+  statecodeCB: () => { },
   MainControlFormCB: () => { },
   RegistrationCB: () => { },
   LoginCB: () => { },

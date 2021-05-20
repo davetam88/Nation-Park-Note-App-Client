@@ -48,17 +48,21 @@ class FavParkList extends Component {
     const { dataList, history } = this.props;
     const { favParks, userRec, favOrderByBtnLabel, favOrderBySortName } = this.context;
 
-    const userFavParks = findFavParksForUser(favParks, userRec.userid);
-    let sortedUserFavParks = userFavParks.slice();
-    sortedUserFavParks.sort(this.sortObjectArray('parkNumber'));
 
+    // no need for this if sql where works 
+    const userFavParks = findFavParksForUser(favParks, userRec.id);
+
+    let sortedUserFavParks = userFavParks.slice();
+    sortedUserFavParks.sort(this.sortObjectArray('parknum'));
     sortedUserFavParks = sortedUserFavParks.map(
       (favPark, idx) => {
-        favPark.parkNumber = idx + 1
+        favPark.parknum = idx + 1
         return (favPark)
       }
     )
+
     sortedUserFavParks.sort(this.sortObjectArray(favOrderBySortName));
+
     attachDataToPark(userFavParks, dataList);
 
     return (
@@ -70,11 +74,11 @@ class FavParkList extends Component {
         </h3>
         <div className="group-container wrap">
           {
-            sortedUserFavParks.map((userFavParkData, idx) => (
+            sortedUserFavParks.map((userFavparkdata, idx) => (
               <FavParkItem
                 key={idx}
                 history={history}
-                userFavParkData={userFavParkData}
+                userFavparkdata={userFavparkdata}
               />
             ))
           }

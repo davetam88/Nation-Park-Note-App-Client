@@ -10,7 +10,7 @@ class PicturePage extends Component {
   static contextType = MainContext;
 
   render() {
-    const { history, parkName, parkData } = this.props;
+    const { history, parkname, parkdata } = this.props;
 
     return (
       <>
@@ -28,8 +28,8 @@ class PicturePage extends Component {
           <section id="js-results" className="bg-main-display cls-results">
             <PictureList history={history}
               doFavPage={this.context.doFavPage}
-              parkName={parkName}
-              parkData={parkData}
+              parkname={parkname}
+              parkdata={parkdata}
             />
           </section>
         </main>

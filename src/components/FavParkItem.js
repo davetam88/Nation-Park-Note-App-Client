@@ -5,7 +5,7 @@ import '../App.css'
 class FavParkItem extends Component {
   static contextType = MainContext;
 
-  parkCodeSelected = "";
+  parkcodeSelected = "";
 
   constructor(props) {
     super(props);
@@ -26,7 +26,7 @@ class FavParkItem extends Component {
     for (let idx = 0; idx < userFavParks.length; idx++)
     {
       let favParkTmp = userFavParks[idx];
-      if ((favParkTmp.parkCode === data.parkCode) &&
+      if ((favParkTmp.parkcode === data.parkcode) &&
         (favParkTmp.userid === userRec.userid))
       {
         return favParkTmp;
@@ -36,7 +36,7 @@ class FavParkItem extends Component {
   }
 
 
-  renderButtons(userFavParkData, history) {
+  renderButtons(userFavparkdata, history) {
     const { DeleteFavParkCB } = this.context;
 
     return (
@@ -48,8 +48,8 @@ class FavParkItem extends Component {
  */}
         <button className="btn-generic-del " type="button"
           onClick={e => DeleteFavParkCB(
-            userFavParkData.favParkId,
-            userFavParkData.userid
+            userFavparkdata.favParkId,
+            userFavparkdata.userid
           )}
         > Remove</button>
       </>
@@ -58,25 +58,25 @@ class FavParkItem extends Component {
 
   render() {
 
-    const { history, userFavParkData } = this.props;
+    const { history, userFavparkdata } = this.props;
 
-    const note = userFavParkData.note;
-    const parkNumber = userFavParkData.parkNumber;
-    const rating = userFavParkData.rating;
-    const activity = userFavParkData.activity;
-    const stateName = userFavParkData.stateName;
 
-    const parkData = userFavParkData.parkData;
+    const note = userFavparkdata.note;
+    const parknum = userFavparkdata.parknum;
+    const rating = userFavparkdata.rating;
+    const activity = userFavparkdata.activity;
+    const statename = userFavparkdata.statename;
+    const parkdata = userFavparkdata.parkdata;
 
 
     let siteAddress = "";
-    if (parkData.addresses.length === 0)
+    if (parkdata.addresses.length === 0)
       siteAddress = 'No Address Information For This Park, Sorry';
     else
     {
       siteAddress = `
-            ${parkData.addresses[0].line1}
-            ${parkData.addresses[0].city},  ${parkData.addresses[0].stateCode} ${parkData.addresses[0].postalCode} 
+            ${parkdata.addresses[0].line1}
+            ${parkdata.addresses[0].city},  ${parkdata.addresses[0].statecode} ${parkdata.addresses[0].postalCode} 
             `;
     }
 
@@ -85,10 +85,10 @@ class FavParkItem extends Component {
 
       < div className="item" >
         <div className="fav-show-title">
-          <h3>{parkData.fullName}</h3>
+          <h3>{parkdata.fullName}</h3>
         </div>
         <div className="fav-show-stats">
-          Park# {parkNumber}, Rating: {rating}, State: {stateName}
+          Park# {parknum}, Rating: {rating}, State: {statename}
         </div>
         <div className="fav-show-stats">
           Activity: {activity}
@@ -101,23 +101,23 @@ class FavParkItem extends Component {
         <br />
         <br />
 
-        <img src={parkData.images[0].url} alt={parkData.fullName} />
+        <img src={parkdata.images[0].url} alt={parkdata.fullName} />
 
-        <p>{parkData.description}</p>
-        <p><b>WebLink</b> : <a href={parkData.url}> {parkData.fullName}</a></p>
+        <p>{parkdata.description}</p>
+        <p><b>WebLink</b> : <a href={parkdata.url}> {parkdata.fullName}</a></p>
 
         <p>
           <b>HQ Address</b> : {siteAddress}
         </p>
 
         <button className="btn-generic " type="button"
-          onClick={e => this.context.ViewPictureBtnCB(history, parkData.fullName, parkData)}
+          onClick={e => this.context.ViewPictureBtnCB(history, parkdata.fullName, parkdata)}
         > More Picture</button >
 
         <button className="btn-generic " type="button"
-          onClick={e => this.context.ViewVideoBtnCB(history, parkData.fullName)}
+          onClick={e => this.context.ViewVideoBtnCB(history, parkdata.fullName)}
         >Video</button>
-        { this.renderButtons(userFavParkData, history)}
+        { this.renderButtons(userFavparkdata, history)}
       </div >
     )
   }

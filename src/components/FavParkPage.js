@@ -19,13 +19,15 @@ class FavParkPage extends Component {
   }
 
   componentDidMount() {
+
     const { favParks, userRec } = this.context;
+
 
     // sql
     const userFavParks = findFavParksForUser(favParks, userRec.userid);
 
-    const parkCodeList = userFavParks.map(park => park.parkCode);
-    parkCodeList.join(',');
+    const parkcodeList = userFavParks.map(park => park.parkcode);
+    parkcodeList.join(',');
 
 
     if (!userFavParks.length)
@@ -37,7 +39,7 @@ class FavParkPage extends Component {
     let searchURL = 'https://developer.nps.gov/api/v1/parks';
     let api_key = 'nC3wQoBberQTpH9oGy9RZd3WPZRbbUw3eTCblSCb';
     let limit = 20;
-    let parkURL = `${searchURL}?parkCode=${parkCodeList}&limit=${limit}&api_key=${api_key}&`;
+    let parkURL = `${searchURL}?parkcode=${parkcodeList}&limit=${limit}&api_key=${api_key}&`;
 
     fetch(parkURL)
       .then(response => {

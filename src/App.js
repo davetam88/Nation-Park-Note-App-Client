@@ -20,25 +20,22 @@ class App extends Component {
   searchURL = 'https://developer.nps.gov/api/v1/parks';
 
   state = {
-    fetchParkData: {},
+    fetchparkdata: {},
+    users: [],
+    favParks: [],
 
-    // users: [],
-    users: STORE.users,
-    favParks: STORE.favParks,
     stateOptions: STORE.stateOptions,
     activityOptions: STORE.activityOptions,
-
-
     favOrderByOptoins: STORE.favOrderByOptoins,
 
     favOrderByBtnLabel: "Park Number",
-    favOrderBySortName: "parkNumber",
+    favOrderBySortName: "parknum",
 
     activity: "All",
-    stateCode: "AL",
-    parkName: "",
-    parkCode: "",
-    parkData: "",
+    statecode: "AL",
+    parkname: "",
+    parkcode: "",
+    parkdata: "",
 
     username: "Demo",
     logInState: false,
@@ -57,21 +54,21 @@ class App extends Component {
     })
   }
 
-  StateCodeCB = (stateCode) => {
+  statecodeCB = (statecode) => {
     this.setState({
-      stateCode
+      statecode
     })
   }
 
   MainControlFormCB = () => {
-    const { stateCode, activity } = this.state;
-    this.fetchParkInfos(stateCode, activity, 20);
+    const { statecode, activity } = this.state;
+    this.fetchParkInfos(statecode, activity, 20);
     // this.state.activity = activity;
   }
 
-  RegistrationCB = (username, password, idx) => {
+  RegistrationCB = (username, password, newUserid) => {
     let currentUserMem = {
-      // this id could be generate by sql 
+      // this id could be generate by sql
       // userid: this.state.users.length + 1,
       username: username,
       password: password,
@@ -79,7 +76,7 @@ class App extends Component {
     }
 
     let currentUserDB = {
-      // this id could be generate by sql 
+      // this id could be generate by sql
       userid: this.state.users.length + 1,
       username: username,
       password: password,
@@ -110,25 +107,33 @@ class App extends Component {
   }
 
 
-  LoginCB = (userRec) => {
+  async fetchFavpark(userid) {
+    const response = await fetch(`${config.API_ENDPOINT}/favparks/favparks-userid/${userid}`);
+    // const response = await fetch(`${config.API_ENDPOINT}/favparks`);
+    const favparks = await response.json();
+    return (favparks);
+  }
 
+
+  LoginCB = (userRec) => {
     // initialzie order by buttons, for new user.
     var initSelect = JSON.parse(JSON.stringify(this.state.favOrderByOptoins));
+
     for (let idx = 0; idx < initSelect.length; idx++)
       initSelect[idx].selected = 0
     initSelect[0].selected = 1;
 
-    // for getting the favPark ids.
-    // const userRec = findUserRecByUsername(this.state.users, username);
-    // const userRec = this.fetchUserRecByUsername(username);
-
-    this.setState({
-      username: userRec.username,
-      password: userRec.password,
-      logInState: true,
-      favOrderByOptoins: initSelect,
-      favOrderBySelected: 0,
-      userRec: userRec
+    this.fetchFavpark(userRec.id).then(favParks => {
+      this.setState({
+        username: userRec.username,
+        password: userRec.password,
+        logInState: true,
+        favOrderByOptoins: initSelect,
+        favOrderBySelected: 0,
+        userRec: userRec,
+        favParks: favParks
+      })
+      return;
     })
   }
 
@@ -154,16 +159,17 @@ class App extends Component {
     });
   }
 
-  SaveParkButtonCB = (parkName, parkCode, history) => {
-    localStorage.setItem("park", parkName)
+  SaveParkButtonCB = (parkname, parkcode, history) => {
+    localStorage.setItem("park", parkname)
     this.setState({
-      parkCode,
-      parkName,
+      parkcode,
+      parkname,
+
     });
     history.push('/add-fav-note')
   };
 
-  AddFavNoteSubmitCB = (favPark, user) => {
+  AddFavNoteSubmitCB = (favPark) => {
     this.setState({
       favParks: [
         ...this.state.favParks,
@@ -180,17 +186,17 @@ class App extends Component {
   }
 
 
-  ViewVideoBtnCB = (history, parkName) => {
-    this.setState({ parkName: parkName });
+  ViewVideoBtnCB = (history, parkname) => {
+    this.setState({ parkname: parkname });
     history.push('/video-page')
 
   }
 
-  ViewPictureBtnCB = (history, parkName, parkData) => {
+  ViewPictureBtnCB = (history, parkname, parkdata) => {
 
     this.setState({
-      parkName: parkName,
-      parkData: parkData,
+      parkname: parkname,
+      parkdata: parkdata,
     });
     history.push('/picture-page')
   }
@@ -231,17 +237,33 @@ class App extends Component {
       headers: {
         "content-type": "application/json",
       },
+
       body: JSON.stringify(userRec),
     })
     const temp = await response.json();
     return temp;
   }
 
-  componentDidMount() {
-    const { stateCode, activity } = this.state;
-    // try catch 
 
-    this.fetchParkInfos(stateCode, activity, 20);
+
+  async test1() {
+    try
+    {
+      // const response = await fetch(`${config.API_ENDPOINT}/test1`)
+      const response = await fetch(`${config.API_ENDPOINT}/users`)
+      const temp = await response.json();
+      return temp;
+    } catch (err)
+    {
+      alert(err);
+    }
+  }
+
+  componentDidMount() {
+    const { statecode, activity } = this.state;
+    this.fetchFavpark(1).then(favpark_rec => {
+    })
+    this.fetchParkInfos(statecode, activity, 20);
   }
 
   formatParkInfoQueryParams(params) {
@@ -250,20 +272,19 @@ class App extends Component {
     return queryItems.join('&');
   }
 
-
-  fetchParkInfos(stateCode, activity, maxResults = 4) {
+  fetchParkInfos(statecode, activity, maxResults = 4) {
     this.setState({ fetchErrMsg: "" })
 
     const paramsNormal = {
       api_key: this.api_key,
-      stateCode: stateCode,
+      statecode: statecode,
       q: activity,
       limit: maxResults
     };
 
     const paramsAllActivity = {
       api_key: this.api_key,
-      stateCode: stateCode,
+      statecode: statecode,
       limit: maxResults
     };
 
@@ -283,12 +304,12 @@ class App extends Component {
         let errmsg = `${response.status} : ${response.statusText}`;
         throw new Error(errmsg);
       })
-      .then(fetchParkData => {
+      .then(fetchparkdata => {
 
         this.setState({
           activity: activity,
-          stateCode: stateCode,
-          fetchParkData: fetchParkData
+          statecode: statecode,
+          fetchparkdata: fetchparkdata
         })
 
       })
@@ -303,10 +324,9 @@ class App extends Component {
 
 
   render() {
-
     const contextValue = {
       history: this.props.history,
-      fetchParkData: this.state.fetchParkData,
+      fetchparkdata: this.state.fetchparkdata,
 
       users: this.state.users,
       favParks: this.state.favParks,
@@ -318,10 +338,10 @@ class App extends Component {
 
 
       activity: this.state.activity,
-      stateCode: this.state.stateCode,
-      parkName: this.state.parkName,
-      parkCode: this.state.parkCode,
-      parkData: this.state.parkData,
+      statecode: this.state.statecode,
+      parkname: this.state.parkname,
+      parkcode: this.state.parkcode,
+      parkdata: this.state.parkdata,
 
       username: this.state.username,
       password: this.state.password,
@@ -333,7 +353,7 @@ class App extends Component {
       displayFavPage: this.state.displayFavPage,
 
       ActivityCB: this.ActivityCB,
-      StateCodeCB: this.StateCodeCB,
+      statecodeCB: this.statecodeCB,
       MainControlFormCB: this.MainControlFormCB,
       RegistrationCB: this.RegistrationCB,
       LoginCB: this.LoginCB,
@@ -349,7 +369,7 @@ class App extends Component {
       FetchFavParkInfosCB: this.FetchFavParkInfosCB,
     }
 
-    const { parkName, parkData } = this.state;
+    const { parkname, parkdata } = this.state;
 
     return (
       <div className="container" >
@@ -368,7 +388,7 @@ class App extends Component {
             render={routeProps => {
               return <VideoPage
                 history={routeProps.history}
-                parkName={parkName}
+                parkname={parkname}
               />
             }} />
 
@@ -378,8 +398,8 @@ class App extends Component {
             render={routeProps => {
               return <PicturePage
                 history={routeProps.history}
-                parkName={parkName}
-                parkData={parkData}
+                parkname={parkname}
+                parkdata={parkdata}
               />
             }} />
 

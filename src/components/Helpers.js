@@ -1,6 +1,6 @@
-export const findStateObjByCode = (stateOptions = [], stateCode) => {
+export const findStateObjByCode = (stateOptions = [], statecode) => {
   return (
-    stateOptions.find(stateName => stateName.value === stateCode)
+    stateOptions.find(statename => statename.value === statecode)
   )
 }
 
@@ -19,32 +19,34 @@ export const findFavParksForUser = (favParks = [], userid) => {
       ))
 }
 
-export const findFavParkByParkCode = (FavParks = [], parkCode) => {
+export const findFavParkByParkcode = (FavParks = [], parkcode) => {
   return (
-    FavParks.find(elem => elem.parkCode === parkCode)
+    FavParks.find(elem => elem.parkcode === parkcode)
   )
 }
 
 
 // return # of records found
 export const attachDataToPark = (userFavParks, dataList) => {
-
   for (var idx = 0; idx < userFavParks.length; idx++)
   {
     let userFavPark = userFavParks[idx];
+
     for (var idy = 0; idy < dataList.length; idy++)
     {
+
       // let favParkTmp = userFavParks[idx];
       let dataListTmp = dataList[idy];
-      if (userFavPark.parkCode === dataListTmp.parkCode)
+      // note varname from DB is all lower case
+      if (userFavPark.parkcode === dataListTmp.parkCode)
       {
-        userFavPark.parkData = dataListTmp;
+        userFavPark.parkdata = dataListTmp;
+        // userFavPark.parkdata = "test";
         break;
       }
     }
   }
   return (idy);
 }
-
 
 // import { findFavParksForUser } from './Helpers';

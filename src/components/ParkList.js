@@ -16,9 +16,9 @@ class ParkList extends Component {
   }
 
   render() {
-    const { favParks, logInState, stateCode, activity, fetchParkData, userRec } = this.context;
+    const { favParks, logInState, statecode, activity, fetchparkdata, userRec } = this.context;
 
-    if (Object.keys(fetchParkData).length === 0)
+    if (Object.keys(fetchparkdata).length === 0)
     {
       return (
         <>
@@ -26,7 +26,7 @@ class ParkList extends Component {
       )
     }
 
-    const dataLen = fetchParkData.data.length;
+    const dataLen = fetchparkdata.data.length;
     let userFavParks = {};
     if (logInState) userFavParks = findFavParksForUser(favParks, userRec.userid);
 
@@ -35,11 +35,11 @@ class ParkList extends Component {
       <>
         <h3 className="overlay-section-heading">
           There Are <em>{dataLen}</em> Parks That Matches Your Search Criteria<br />
-          <em>StateCode = {stateCode}  :  Activity = {activity}</em>
+          <em>statecode = {statecode}  :  Activity = {activity}</em>
         </h3>
         <div className="group-container wrap">
           {
-            fetchParkData.data.map((respData, idx) => (
+            fetchparkdata.data.map((respData, idx) => (
               <ParkItem key={idx} history={this.props.history}
                 userFavParks={userFavParks}
                 itemData={respData}

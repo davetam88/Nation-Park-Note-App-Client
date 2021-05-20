@@ -12,7 +12,7 @@ class VideoList extends Component {
   }
 
   render() {
-    const { data, parkName, history } = this.props;
+    const { data, parkname, history } = this.props;
 
     if (Object.keys(data).length === 0)
     {
@@ -26,7 +26,7 @@ class VideoList extends Component {
     return (
       <>
         <h3 className="overlay-section-heading">
-          There Are <em>{numVideos}</em> Videos for <em>{parkName}</em><br /> Click on The Picture to Watch, Enjoy!!
+          There Are <em>{numVideos}</em> Videos for <em>{parkname}</em><br /> Click on The Picture to Watch, Enjoy!!
         </h3>
         <div className="group-container wrap">
           {

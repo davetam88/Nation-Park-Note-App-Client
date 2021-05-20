@@ -52,7 +52,7 @@ class MainControlForm extends Component {
 
 
   render() {
-    const { ActivityCB, StateCodeCB, activity, stateCode, stateOptions, activityOptions } = this.context;
+    const { ActivityCB, statecodeCB, activity, statecode, stateOptions, activityOptions } = this.context;
 
     return (
       <>
@@ -71,9 +71,9 @@ class MainControlForm extends Component {
                 <div className="select-container">
 
                   <label htmlFor="js-activities" className="main-label"> State Name</label>
-                  <select value={stateCode}
+                  <select value={statecode}
                     className="itemRight field-qty-num"
-                    onChange={(e) => StateCodeCB(e.target.value)}
+                    onChange={(e) => statecodeCB(e.target.value)}
                   >
                     {stateOptions.map((option, idx) => (
 

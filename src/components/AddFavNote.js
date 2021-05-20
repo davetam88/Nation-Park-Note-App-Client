@@ -2,57 +2,47 @@ import React, { useContext, useState } from 'react';
 import MainContext from '../MainContext';
 import '../App.css'
 import './FavForm.css'
-import { findUserRecByUsername } from './Helpers';
 
 
 export default function AddFavNote({ history, favParks }) {
 
   const favContext = useContext(MainContext)
-  const [parkCode] = useState(favContext.parkCode)
+  const [parkcode] = useState(favContext.parkcode)
   const [rating, setRating] = useState("")
   const [note, setNote] = useState("")
 
   let favParksNew = {
-    parkCode: favContext.parkCode,
-    stateCode: favContext.stateCode,
-    parkName: favContext.parkName,
+    parkcode: favContext.parkcode,
+    statecode: favContext.statecode,
+    parkname: favContext.parkname,
     rating: 1,
     note: "",
-    stateName: "",
+    statename: "",
     activity: favContext.activity,
-    parkNumber: 0,
+    parknum: 0,
   }
 
-  let userRecNew = {};
 
   let handleCancel = () => {
     history.push('/')
   };
 
   let handleSubmit = (e) => {
-    const { stateCode, stateOptions, users, username } = favContext;
-
-
-    const user = findUserRecByUsername(users, username);
+    const { favParks, statecode, stateOptions, userRec } = favContext;
 
     e.preventDefault();
 
-
     // add to the end for now. stop number = park nubmer for now 
-    favParksNew.favParkId = favContext.favParks.length + 1;
-    favParksNew.parkCode = parkCode;
-    favParksNew.stateCode = stateCode;
+    favParksNew.parkcode = parkcode;
+    favParksNew.statecode = statecode;
     favParksNew.rating = rating;
     favParksNew.note = note;
-    favParksNew.stateName = findStateNameByCode(stateCode, stateOptions)
-    favParksNew.userid = user.userid;
+    favParksNew.statename = findStatenameByCode(statecode, stateOptions)
+    favParksNew.userid = userRec.id;
     // activity
-    favParksNew.parkNumber = user.favParkIds.length + 1;
-    user.favParkIds.push(favParksNew.favParkId);
+    favParksNew.parknum = favParks.length + 1;
 
-    userRecNew = user;
-
-    favContext.AddFavNoteSubmitCB(favParksNew, userRecNew)
+    favContext.AddFavNoteSubmitCB(favParksNew)
     history.push('/fav-park')
   }
 
@@ -112,12 +102,14 @@ export default function AddFavNote({ history, favParks }) {
   );
 }
 
-function findStateNameByCode(stateCode, stateOptions) {
+function findStatenameByCode(statecode, stateOptions) {
   for (let idx = 0; idx < stateOptions.length; idx++)
   {
-    if (stateOptions[idx].value === stateCode)
+    if (stateOptions[idx].value === statecode)
     {
       return stateOptions[idx].label;
     }
   }
 }
+
+

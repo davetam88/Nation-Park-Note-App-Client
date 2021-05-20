@@ -5,7 +5,7 @@ import '../App.css'
 class ParkItem extends Component {
   static contextType = MainContext;
 
-  parkCodeSelected = "";
+  parkcodeSelected = "";
 
   constructor(props) {
     super(props);
@@ -17,13 +17,14 @@ class ParkItem extends Component {
     // this.props.history.push('/')
   };
 
-  renderButtons(parkCode, fullName, history, userFavParks) {
+  renderButtons(parkcode, fullName, history, userFavParks) {
     const { SaveParkButtonCB, DeleteFavParkCB } = this.context;
 
     if (this.context.logInState)
     {
       let userFavPark = userFavParks.find(park =>
-        park.parkCode === parkCode);
+        park.parkcode === parkcode);
+
       if (userFavPark)
       {
         return (
@@ -46,7 +47,7 @@ class ParkItem extends Component {
         return (
           <>
             <button className="btn-generic-save" type="button"
-              onClick={e => SaveParkButtonCB(fullName, parkCode, history)}
+              onClick={e => SaveParkButtonCB(fullName, parkcode, history)}
             > Save</button>
           </>
         )
@@ -66,7 +67,7 @@ class ParkItem extends Component {
     {
       siteAddress = `
             ${itemData.addresses[0].line1}
-            ${itemData.addresses[0].city},  ${itemData.addresses[0].stateCode} ${itemData.addresses[0].postalCode} 
+            ${itemData.addresses[0].city},  ${itemData.addresses[0].statecode} ${itemData.addresses[0].postalCode} 
             `;
     }
 
@@ -91,7 +92,7 @@ class ParkItem extends Component {
         <button className="btn-generic " type="button"
           onClick={e => this.context.ViewVideoBtnCB(history, itemData.fullName)}
         >Video</button>
-        {this.renderButtons(itemData.parkCode, itemData.fullName, history, userFavParks)}
+        {this.renderButtons(itemData.parkcode, itemData.fullName, history, userFavParks)}
       </div>
 
     )

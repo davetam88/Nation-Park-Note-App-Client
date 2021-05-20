@@ -12,9 +12,6 @@ class LoginPage extends Component {
     super(props);
 
     this.state = {
-      username: "",
-      password: "",
-      usersDB: [],
       errorMsg: "",
     };
   }
@@ -43,48 +40,33 @@ class LoginPage extends Component {
     this.props.history.push('/')
   };
 
-  // start up fetch record, 
   async fetchUsers(username, password) {
-    // try
-    // {
     const response = await fetch(`${config.API_ENDPOINT}/users`);
     const users = await response.json();
     return (users);
-
-    // } catch (status)
-    // {
-    // }
   }
 
   checkPassword(users, username, password) {
-    let passwordMatch = 0;
-    let idx = 0;
-    for (idx = 0; idx < users.length; idx++)
+    for (var idx = 0; idx < users.length; idx++)
     {
       if (users[idx].username === username)
       {
         if (users[idx].password === password)
         {
-          passwordMatch = 1;
-          return (users[idx]);
+          return (users[idx])
+        } else
+        {
+          this.setState({
+            errorMsg: 'Invalid Password, Please Try Again',
+          })
+          return 0;
         }
       }
     }
-    return (0);
-  }
-
-  processPassword(userRec) {
-    if (userRec)
-    {
-      this.context.LoginCB(userRec);
-      this.props.history.push("/");
-    } else
-    {
-      this.setState({
-        errorMsg: 'Invalid Password, Please Try Again',
-      })
-      return;
-    }
+    this.setState({
+      errorMsg: 'Invalid User Name, Please Try Again',
+    })
+    return 0;
   }
 
   handleSubmit = (e) => {
@@ -109,17 +91,17 @@ class LoginPage extends Component {
       return;
     }
 
-    let userRec = {};
-    if (userRec = this.checkPassword(users, username, password))
-      this.processPassword(userRec)
-
     this.fetchUsers(username, password).then(usersDB => {
-      if (userRec = this.checkPassword(usersDB, username, password))
-        this.processPassword(userRec)
+      let userRec = {};
+      if ((userRec = this.checkPassword(usersDB, username, password)))
+      {
+        this.context.LoginCB(userRec);
+        this.props.history.push("/");
+        return;
+      }
     });
     return;
   }
-
 
   render() {
 
