@@ -11,38 +11,33 @@ export default function AddFavNote({ history, favParks }) {
   const [rating, setRating] = useState("")
   const [note, setNote] = useState("")
 
-  let favParksNew = {
-    parkcode: favContext.parkcode,
-    statecode: favContext.statecode,
-    parkname: favContext.parkname,
-    rating: 1,
-    note: "",
-    statename: "",
-    activity: favContext.activity,
-    parknum: 0,
-  }
-
 
   let handleCancel = () => {
     history.push('/')
   };
 
+
+
   let handleSubmit = (e) => {
-    const { favParks, statecode, stateOptions, userRec } = favContext;
+    const { parkname, favParks, statecode, activity, stateOptions, userRec, parkdata } = favContext;
 
     e.preventDefault();
-
+    const favParksNew = {};
     // add to the end for now. stop number = park nubmer for now 
-    favParksNew.parkcode = parkcode;
+    favParksNew.parkname = parkname;
     favParksNew.statecode = statecode;
-    favParksNew.rating = rating;
-    favParksNew.note = note;
+    favParksNew.activity = activity;
+    favParksNew.parkcode = parkcode;
     favParksNew.statename = findStatenameByCode(statecode, stateOptions)
+
+    favParksNew.note = note;
+    favParksNew.rating = rating;
     favParksNew.userid = userRec.id;
-    // activity
     favParksNew.parknum = favParks.length + 1;
+    favParksNew.parkdata = parkdata;
 
     favContext.AddFavNoteSubmitCB(favParksNew)
+
     history.push('/fav-park')
   }
 

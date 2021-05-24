@@ -7,7 +7,7 @@ export default function AboutContent(props) {
   return (
     <>
       <main>
-        <div class="about-content-container">
+        <div className="about-content-container">
           <h1>
             National Park Note APP
         </h1>
@@ -25,7 +25,7 @@ export default function AboutContent(props) {
 
           <p>
             To watch a <b>user demo account</b> in action,
-            enter <b>Demo</b> as the user and <b>dd</b> as the password in the
+            enter <b>Demo</b> as the user and <b>demo</b> as the password in the
           <span> </span>
             <Link to='/login' >
               <b>LOGIN</b>

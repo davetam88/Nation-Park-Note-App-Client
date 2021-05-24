@@ -6,23 +6,12 @@ import { Link } from 'react-router-dom'
 
 class MainControlForm extends Component {
   static contextType = MainContext;
-  constructor(props) {
-    super(props);
-    this.state = {
-      // statecode: "",
-      // activity: "",
-    };
-  }
 
   static defaultProps = {
     history: {
       push: () => { },
     },
   };
-
-  handleModifyButton(e) {
-
-  }
 
   renderGoFavLink() {
     let styles = {

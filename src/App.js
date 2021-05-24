@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
+
 import MainContext from './MainContext';
 import HomePage from "./components/HomePage";
 import PicturePage from "./components/PicturePage";
@@ -9,11 +10,12 @@ import LoginPage from './components/LoginPage';
 import RegistrationPage from './components/RegistrationPage';
 import AddFavNote from './components/AddFavNote';
 import VideoPage from './components/VideoPage';
+
 import config from './config';
-
 import STORE from './STORE'
-
 import "./App.css";
+
+
 
 class App extends Component {
   api_key = 'nC3wQoBberQTpH9oGy9RZd3WPZRbbUw3eTCblSCb';
@@ -21,7 +23,7 @@ class App extends Component {
 
   state = {
     fetchparkdata: {},
-    users: [],
+    // users: [],
     favParks: [],
 
     stateOptions: STORE.stateOptions,
@@ -35,7 +37,7 @@ class App extends Component {
     statecode: "AL",
     parkname: "",
     parkcode: "",
-    parkdata: "",
+    parkdata: {},
 
     username: "Demo",
     logInState: false,
@@ -66,64 +68,54 @@ class App extends Component {
     // this.state.activity = activity;
   }
 
-  RegistrationCB = (username, password, newUserid) => {
-    let currentUserMem = {
-      // this id could be generate by sql
-      // userid: this.state.users.length + 1,
-      username: username,
-      password: password,
-      favParkIds: [],
-    }
-
-    let currentUserDB = {
-      // this id could be generate by sql
-      userid: this.state.users.length + 1,
+  RegistrationCB = (username, password) => {
+    let userRecNew = {
       username: username,
       password: password,
     }
 
-    this.addNewUser(currentUserDB);
-
-    // const userRec = findUserRecByUsername(this.state.users, username);
-    // initialzie order by buttons, for new user.
+    this.addNewUser(userRecNew);
     var initSelect = JSON.parse(JSON.stringify(this.state.favOrderByOptoins));
     for (let idx = 0; idx < initSelect.length; idx++)
       initSelect[idx].selected = 0
     initSelect[0].selected = 1;
 
-
     this.setState({
-      users: [
-        ...this.state.users,
-        currentUserMem
-      ],
       username: username,
-      userRec: currentUserMem,
+      userRec: userRecNew,
       logInState: true,
       favOrderByOptoins: initSelect,
       favOrderBySelected: 0,
     })
-    // store information to database
   }
 
-
-  async fetchFavpark(userid) {
-    const response = await fetch(`${config.API_ENDPOINT}/favparks/favparks-userid/${userid}`);
-    // const response = await fetch(`${config.API_ENDPOINT}/favparks`);
-    const favparks = await response.json();
-    return (favparks);
+  async fetchFavparkForUser(userid) {
+    try
+    {
+      const response = await fetch(`${config.API_ENDPOINT}/api/favparks/favparks-userid/${userid}`);
+      const favparks = await response.json();
+      return (favparks);
+    }
+    catch (err)
+    {
+      const errmsg = "Cannot Fetch User Park Info : Server Access Failed"
+      this.setState({
+        fetchErrMsg: errmsg,
+      })
+      alert(errmsg)
+    }
   }
 
 
   LoginCB = (userRec) => {
-    // initialzie order by buttons, for new user.
+
     var initSelect = JSON.parse(JSON.stringify(this.state.favOrderByOptoins));
 
     for (let idx = 0; idx < initSelect.length; idx++)
       initSelect[idx].selected = 0
     initSelect[0].selected = 1;
 
-    this.fetchFavpark(userRec.id).then(favParks => {
+    this.fetchFavparkForUser(userRec.id).then(favParks => {
       this.setState({
         username: userRec.username,
         password: userRec.password,
@@ -159,22 +151,51 @@ class App extends Component {
     });
   }
 
-  SaveParkButtonCB = (parkname, parkcode, history) => {
+  SaveParkButtonCB = (parkname, parkcode, parkdata, history) => {
     localStorage.setItem("park", parkname)
     this.setState({
       parkcode,
       parkname,
-
+      parkdata,
     });
     history.push('/add-fav-note')
   };
 
+
+  async addFavPark(favpark) {
+    //   const response = await fetch('http://localhost:8000/users');
+    try
+    {
+      await fetch(config.API_ENDPOINT + `/api/favparks`, {
+        body: JSON.stringify(favpark),
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          // 'authorization': `bearer ${config.API_KEY}`
+        }
+      })
+    }
+    catch (err)
+    {
+      const errmsg = "Cannot Add Park Info : Server Access Failed"
+      this.setState({
+        fetchErrMsg: errmsg,
+      })
+      alert(errmsg)
+    }
+  }
+
+
   AddFavNoteSubmitCB = (favPark) => {
-    this.setState({
-      favParks: [
-        ...this.state.favParks,
-        favPark
-      ]
+
+    this.addFavPark(favPark).then(() => {
+      const favParkTmp = JSON.parse(JSON.stringify(favPark))
+      this.setState({
+        favParks: [
+          ...this.state.favParks,
+          favParkTmp
+        ]
+      })
     })
   }
 
@@ -201,43 +222,44 @@ class App extends Component {
     history.push('/picture-page')
   }
 
-  DeleteFavParkCB = (favParkIdEntry, userid) => {
-
-    const favParksNew = this.state.favParks.filter(fp => {
-      return (fp.favParkId !== favParkIdEntry)
-    })
-
-    let userRecNew = this.state.userRec;
-    const favParkIdsNew = userRecNew.favParkIds.filter(favParkId => {
-      return (
-        (favParkId !== favParkIdEntry)
-      )
-    })
-    userRecNew.favParkIds = favParkIdsNew;
-
-
-    this.setState({
-      favParks: favParksNew,
-      userRec: userRecNew,
-      // userFavParks: userFavParks,
-    })
-
+  async deleteFavPark(favparkId) {
+    try
+    {
+      await fetch(config.API_ENDPOINT + `/api/favparks/${favparkId}`, {
+        method: 'DELETE',
+        headers: {
+          'authorization': `bearer ${config.API_KEY}`
+        }
+      })
+    }
+    catch (err)
+    {
+      const errmsg = "Cannot Remove Park Info : Server Access Failed"
+      this.setState({
+        fetchErrMsg: errmsg,
+      })
+      alert(errmsg)
+    }
   }
 
-  FetchFavParkInfosCB = (firsTime) => {
-    this.fetchFavParkInfosExec("hobe", 'All')
-    // this.setState({ savedPark: true });
-
+  DeleteFavParkCB = (favParkId) => {
+    this.deleteFavPark(favParkId).then(() => {
+      const favParksNew = this.state.favParks.filter(favPark =>
+        (favParkId !== favPark.id)
+      )
+      this.setState({
+        favParks: favParksNew,
+      })
+      return;
+    })
   }
 
   async addNewUser(userRec) {
-    //   const response = await fetch('http://localhost:8000/users');
-    const response = await fetch(`${config.API_ENDPOINT}/users`, {
+    const response = await fetch(`${config.API_ENDPOINT}/api/users`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
-
       body: JSON.stringify(userRec),
     })
     const temp = await response.json();
@@ -245,24 +267,8 @@ class App extends Component {
   }
 
 
-
-  async test1() {
-    try
-    {
-      // const response = await fetch(`${config.API_ENDPOINT}/test1`)
-      const response = await fetch(`${config.API_ENDPOINT}/users`)
-      const temp = await response.json();
-      return temp;
-    } catch (err)
-    {
-      alert(err);
-    }
-  }
-
   componentDidMount() {
     const { statecode, activity } = this.state;
-    this.fetchFavpark(1).then(favpark_rec => {
-    })
     this.fetchParkInfos(statecode, activity, 20);
   }
 
@@ -336,7 +342,6 @@ class App extends Component {
       favOrderByBtnLabel: this.state.favOrderByBtnLabel,
       favOrderBySortName: this.state.favOrderBySortName,
 
-
       activity: this.state.activity,
       statecode: this.state.statecode,
       parkname: this.state.parkname,
@@ -365,8 +370,6 @@ class App extends Component {
       ViewVideoBtnCB: this.ViewVideoBtnCB,
       ViewPictureBtnCB: this.ViewPictureBtnCB,
       DeleteFavParkCB: this.DeleteFavParkCB,
-
-      FetchFavParkInfosCB: this.FetchFavParkInfosCB,
     }
 
     const { parkname, parkdata } = this.state;
@@ -429,8 +432,6 @@ class App extends Component {
               return null;
             }}
           />
-
-
         </MainContext.Provider>
       </div >
     );

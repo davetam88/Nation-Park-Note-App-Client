@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import MainContext from '../MainContext';
+import { coder } from './Helpers';
 import '../App.css'
 import './FavForm.css'
 import config from '../config';
@@ -41,9 +42,20 @@ class LoginPage extends Component {
   };
 
   async fetchUsers(username, password) {
-    const response = await fetch(`${config.API_ENDPOINT}/users`);
-    const users = await response.json();
-    return (users);
+    try
+    {
+      const response = await fetch(`${config.API_ENDPOINT}/api/users`);
+      const users = await response.json();
+      return (users);
+    }
+    catch (err)
+    {
+      const errmsg = "Cannot Fetch User Info : Server Access Failed"
+      this.setState({
+        errorMsg: errmsg,
+      })
+      return 0;
+    }
   }
 
   checkPassword(users, username, password) {
@@ -51,7 +63,8 @@ class LoginPage extends Component {
     {
       if (users[idx].username === username)
       {
-        if (users[idx].password === password)
+        let codedPW = coder(password, 3, 1);
+        if (users[idx].password === codedPW)
         {
           return (users[idx])
         } else
@@ -69,11 +82,12 @@ class LoginPage extends Component {
     return 0;
   }
 
+
+
   handleSubmit = (e) => {
-    const { users } = this.context;
+    // const { users } = this.context;
     const { username, password } = this.state;
     e.preventDefault();
-
 
     if (username === "")
     {
@@ -92,13 +106,17 @@ class LoginPage extends Component {
     }
 
     this.fetchUsers(username, password).then(usersDB => {
-      let userRec = {};
-      if ((userRec = this.checkPassword(usersDB, username, password)))
+      if (!this.state.errorMsg)
       {
-        this.context.LoginCB(userRec);
-        this.props.history.push("/");
-        return;
+        let userRec = {};
+        if ((userRec = this.checkPassword(usersDB, username, password)))
+        {
+          this.context.LoginCB(userRec);
+          this.props.history.push("/");
+          return;
+        }
       }
+      return;
     });
     return;
   }

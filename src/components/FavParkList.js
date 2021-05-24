@@ -1,8 +1,6 @@
-
 import React, { Component } from 'react';
 import FavParkItem from "./FavParkItem";
 import MainContext from '../MainContext';
-import { findFavParksForUser } from './Helpers';
 import { attachDataToPark } from './Helpers';
 
 import '../App.css'
@@ -46,13 +44,9 @@ class FavParkList extends Component {
   render() {
 
     const { dataList, history } = this.props;
-    const { favParks, userRec, favOrderByBtnLabel, favOrderBySortName } = this.context;
+    const { favParks, favOrderByBtnLabel, favOrderBySortName } = this.context;
 
-
-    // no need for this if sql where works 
-    const userFavParks = findFavParksForUser(favParks, userRec.id);
-
-    let sortedUserFavParks = userFavParks.slice();
+    let sortedUserFavParks = favParks.slice();
     sortedUserFavParks.sort(this.sortObjectArray('parknum'));
     sortedUserFavParks = sortedUserFavParks.map(
       (favPark, idx) => {
@@ -62,23 +56,22 @@ class FavParkList extends Component {
     )
 
     sortedUserFavParks.sort(this.sortObjectArray(favOrderBySortName));
-
-    attachDataToPark(userFavParks, dataList);
+    attachDataToPark(favParks, dataList);
 
     return (
       <>
         <h3 className="overlay-section-heading">
-          You Have <em>({userFavParks.length})</em> Favorvite Park(s) Sorted By
+          You Have <em>({favParks.length})</em> Favorvite Park(s) Sorted By
           <span> </span><em>
             {favOrderByBtnLabel} </em> <br />
         </h3>
         <div className="group-container wrap">
           {
-            sortedUserFavParks.map((userFavparkdata, idx) => (
+            sortedUserFavParks.map((favPark, idx) => (
               <FavParkItem
                 key={idx}
                 history={history}
-                userFavparkdata={userFavparkdata}
+                favPark={favPark}
               />
             ))
           }

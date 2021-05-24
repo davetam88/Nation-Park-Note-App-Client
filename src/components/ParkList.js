@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ParkItem from "./ParkItem";
 import MainContext from '../MainContext';
 import '../App.css'
-import { findFavParksForUser } from './Helpers';
+
 
 class ParkList extends Component {
   static contextType = MainContext;
@@ -11,12 +11,11 @@ class ParkList extends Component {
     super(props);
 
     this.state = {
-      // activity: "All",
     }
   }
 
   render() {
-    const { favParks, logInState, statecode, activity, fetchparkdata, userRec } = this.context;
+    const { favParks, statecode, activity, fetchparkdata, userRec } = this.context;
 
     if (Object.keys(fetchparkdata).length === 0)
     {
@@ -27,9 +26,6 @@ class ParkList extends Component {
     }
 
     const dataLen = fetchparkdata.data.length;
-    let userFavParks = {};
-    if (logInState) userFavParks = findFavParksForUser(favParks, userRec.userid);
-
 
     return (
       <>
@@ -41,8 +37,9 @@ class ParkList extends Component {
           {
             fetchparkdata.data.map((respData, idx) => (
               <ParkItem key={idx} history={this.props.history}
-                userFavParks={userFavParks}
+                favParks={favParks}
                 itemData={respData}
+                userRec={userRec}
               />
             ))
           }

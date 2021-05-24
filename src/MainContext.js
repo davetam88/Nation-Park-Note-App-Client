@@ -18,7 +18,7 @@ const MainContext = React.createContext({
   statecode: "",
   parkname: "",
   parkcode: "",
-  parkdata: "",
+  parkdata: {},
 
   username: "",
   password: "",
@@ -43,7 +43,6 @@ const MainContext = React.createContext({
   ViewPictureBtnCB: () => { },
   DeleteFavParkCB: () => { },
 
-  FetchFavParkInfosCB: () => { },
 })
 
 export default MainContext

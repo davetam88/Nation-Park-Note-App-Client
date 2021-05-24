@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import MainContext from '../MainContext';
 import '../App.css'
 import './FavForm.css'
+import { coder } from './Helpers';
 import { findUserRecByUsername } from './Helpers';
 import config from '../config';
 
@@ -48,18 +49,26 @@ class RegistrationPage extends Component {
   };
 
   async fetchUsers() {
-    const response = await fetch(`${config.API_ENDPOINT}/users`);
-    const users = await response.json();
-    return (users);
+    try
+    {
+      const response = await fetch(`${config.API_ENDPOINT}/api/users`);
+      const users = await response.json();
+      return (users);
+    }
+    catch (err)
+    {
+      const errmsg = "Cannot Register New User : Server Access Failed"
+      this.setState({
+        fetchErrMsg: errmsg,
+      })
+      alert(errmsg)
+    }
   }
 
   handleSubmit = (e) => {
-
     e.preventDefault();
-    const { users } = this.context;
+
     const { username, password1, password2 } = this.state;
-
-
     if (username === "")
     {
       this.setState({
@@ -81,22 +90,19 @@ class RegistrationPage extends Component {
       this.setState({
         errorMsg: "Confirm Password is Required",
       })
-      return;
     }
 
 
-    if (password1 === password2)
+    if (password1 !== password2)
+    {
+      this.setState({
+        errorMsg: "Confirm Password Do Not Match, Please Try Again",
+      })
+      return;
+    }
+    else
     {
       const password = password1;
-
-      // check in mem users recs 
-      if (findUserRecByUsername(users, username))
-      {
-        this.setState({
-          errorMsg: "Username Already Taken, Please Try Other."
-        })
-        return;
-      }
 
       // check DB users recs 
       this.fetchUsers(username, password).then(usersDB => {
@@ -109,8 +115,8 @@ class RegistrationPage extends Component {
           return;
         } else
         {
-          const newUserid = users.length + usersDB.length;
-          this.context.RegistrationCB(username, password, newUserid);
+          const codedPW = coder(password, 3, 1);
+          this.context.RegistrationCB(username, codedPW);
           this.props.history.push("/");
           return;
         }

@@ -13,31 +13,22 @@ class ParkItem extends Component {
     }
   }
 
-  handleModifyButton = () => {
-    // this.props.history.push('/')
-  };
-
-  renderButtons(parkcode, fullName, history, userFavParks) {
+  renderButtons(parkcode, fullName, itemData, history, favParks, userRec) {
     const { SaveParkButtonCB, DeleteFavParkCB } = this.context;
-
     if (this.context.logInState)
     {
-      let userFavPark = userFavParks.find(park =>
-        park.parkcode === parkcode);
+      let favPark = favParks.find((favpark, idx) => {
+        return (((favpark.parkcode === parkcode) && (
+          favpark.userid === userRec.id)) ? favpark : 0)
+      })
 
-      if (userFavPark)
+      if (favPark)
       {
         return (
           <>
-            {/*           
-            <button className="btn-generic-mod " type="button"
-              onClick={e => this.handleModifyButton()}  >
-              Modify</button>
- */}
             <button className="btn-generic-del " type="button"
               onClick={e => DeleteFavParkCB(
-                userFavPark.favParkId,
-                userFavPark.userid
+                favPark.id
               )}
             > Remove</button>
           </>
@@ -47,7 +38,7 @@ class ParkItem extends Component {
         return (
           <>
             <button className="btn-generic-save" type="button"
-              onClick={e => SaveParkButtonCB(fullName, parkcode, history)}
+              onClick={e => SaveParkButtonCB(fullName, parkcode, itemData, history)}
             > Save</button>
           </>
         )
@@ -57,8 +48,7 @@ class ParkItem extends Component {
 
 
   render() {
-    const { itemData, history, userFavParks } = this.props;
-
+    const { history, favParks, itemData, userRec } = this.props;
 
     let siteAddress = "";
     if (itemData.addresses.length === 0)
@@ -92,7 +82,8 @@ class ParkItem extends Component {
         <button className="btn-generic " type="button"
           onClick={e => this.context.ViewVideoBtnCB(history, itemData.fullName)}
         >Video</button>
-        {this.renderButtons(itemData.parkcode, itemData.fullName, history, userFavParks)}
+        {/* ren but --  */}
+        {this.renderButtons(itemData.parkCode, itemData.fullName, itemData, history, favParks, userRec)}
       </div>
 
     )

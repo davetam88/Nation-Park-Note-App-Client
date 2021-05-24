@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '../App.css'
 import MainControl from './MainControl';
 import NavBar from './NavBar';
 import '../App.css'
@@ -23,18 +22,10 @@ class FavParkPage extends Component {
     const { favParks, userRec } = this.context;
 
 
-    // sql
     const userFavParks = findFavParksForUser(favParks, userRec.userid);
-
     const parkcodeList = userFavParks.map(park => park.parkcode);
     parkcodeList.join(',');
 
-
-    if (!userFavParks.length)
-    {
-      // let errorMsg = `You Have Not Save Any Park Yet`;
-      // this.setState({ error: errorMsg });
-    }
 
     let searchURL = 'https://developer.nps.gov/api/v1/parks';
     let api_key = 'nC3wQoBberQTpH9oGy9RZd3WPZRbbUw3eTCblSCb';
@@ -59,7 +50,6 @@ class FavParkPage extends Component {
   }
 
   render() {
-    // const { favParks, userRec } = this.context;
     const { history } = this.props;
 
 

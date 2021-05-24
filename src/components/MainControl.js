@@ -3,8 +3,12 @@ import { Link } from 'react-router-dom'
 import '../App.css'
 import MainControlForm from './MainControlForm';
 import FavControlForm from './FavControlForm';
+import MainContext from '../MainContext';
+
 
 class MainControl extends Component {
+  static contextType = MainContext;
+
   renderLoginUser(logInState) {
 
     let styles = {
@@ -56,7 +60,7 @@ class MainControl extends Component {
             <h2 className="app-title">
               {doFavPage
                 ? <div>
-                  Visually Explore Your Favrite Park(S) with 'More Picture' or 'Video' Buttons, or Edit The Parks With Modify or Delete Buttons.
+                  Visually Explore Your Favrite Park(S) with 'More Picture' or 'Video' Buttons, or Remove The Saved Park With The Delete Buttons.
                   </div>
                 : <div>
                   All The Information You Need to Know About Your Favorite National Park in One Easy to Use App.
@@ -70,10 +74,8 @@ class MainControl extends Component {
 
           {(doFavPage === true && logInState === true)
             ? <FavControlForm />
-            // : <MainControlForm history="{history}" />
             : <MainControlForm />
           }
-
           {(this.context.fetchErrMsg)
             ? <div class="error-message-main">this.context.fetchErrMsg</div>
             : <> </>}

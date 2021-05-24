@@ -13,13 +13,6 @@ class FavParkItem extends Component {
     }
   }
 
-  handleModifyButton = () => {
-  };
-
-
-  handleDeleteButton = (e) => {
-  };
-
 
   // match with userid and state code 
   matchFavPark = (userFavParks, userRec, data) => {
@@ -35,21 +28,14 @@ class FavParkItem extends Component {
     return 0;
   }
 
-
-  renderButtons(userFavparkdata, history) {
+  renderButtons(favPark, history) {
     const { DeleteFavParkCB } = this.context;
 
     return (
       <>
-        {/* 
-        <button className="btn-generic-mod " type="button"
-          onClick={e => this.handleModifyButton()}  >
-          Modify</button>
- */}
         <button className="btn-generic-del " type="button"
           onClick={e => DeleteFavParkCB(
-            userFavparkdata.favParkId,
-            userFavparkdata.userid
+            favPark.id
           )}
         > Remove</button>
       </>
@@ -58,15 +44,14 @@ class FavParkItem extends Component {
 
   render() {
 
-    const { history, userFavparkdata } = this.props;
+    const { history, favPark } = this.props;
 
-
-    const note = userFavparkdata.note;
-    const parknum = userFavparkdata.parknum;
-    const rating = userFavparkdata.rating;
-    const activity = userFavparkdata.activity;
-    const statename = userFavparkdata.statename;
-    const parkdata = userFavparkdata.parkdata;
+    const note = favPark.note;
+    const parknum = favPark.parknum;
+    const rating = favPark.rating;
+    const activity = favPark.activity;
+    const statename = favPark.statename;
+    const parkdata = favPark.parkdata;
 
 
     let siteAddress = "";
@@ -117,7 +102,7 @@ class FavParkItem extends Component {
         <button className="btn-generic " type="button"
           onClick={e => this.context.ViewVideoBtnCB(history, parkdata.fullName)}
         >Video</button>
-        { this.renderButtons(userFavparkdata, history)}
+        { this.renderButtons(favPark, history)}
       </div >
     )
   }

@@ -79,8 +79,7 @@ The APP's inspiration came from my love of nature and the outdoors, and the unsp
 ## New park as shown at the 'user favorite park page' <<<
 ![user_favorite_park_page_with_new_park_saved](src/images/readme/user_favorite_park_page_with_new_park_saved.jpg)
 
-## New park as shown at the 'search park page' <<<
-## User favorite park page with new park added <<<
+## New park as shown at the 'search park page' <<<<
 ![new_park_at_the_user_search_park_page](src/images/readme/new_park_at_the_user_search_park_page.jpg)
 
 ## Park to be removed at favorite park page <<<

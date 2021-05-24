@@ -17,7 +17,6 @@ class MainControlForm extends Component {
     },
   };
 
-
   handleSubmit = (e) => {
     e.preventDefault();
 
