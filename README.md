@@ -1,4 +1,4 @@
-# National Park Note APP
+# National Park Note APP - Database Version - Client
 
 All the information you need to know about your favorite National Parks in the United States in one easy to use APP. You can narrow down your <b>search by State and Activities</b>. Once your park(s) are located, you can see <b>more pictures</b> and/or <b>YouTube videos</b> for a particular park.
 
@@ -22,14 +22,15 @@ The APP's inspiration came from my love of nature and the outdoors, and the unsp
 
 # Live Demo link and User-Flow Diagram
 
-- [Live Demo Link - Vercel](https://national-park-note-app.vercel.app/)
+- [Live Demo Link - Vercel](https://national-park-note-app-client.vercel.app/)
 
-- [GitHub Code Link - main](https://github.com/davetam88/National-Park-Note-App)
+- [GitHub Code Link - Database Version - Client](https://github.com/davetam88/Nation-Park-Note-App-Client)
 
-- [GitHub Code Link - branch - wireframe](https://github.com/davetam88/National-Park-Trip-Planner/tree/wireframe-and-user-flow-diagram)
+- [GitHub Code Link - Database Version - Server](https://github.com/davetam88/Nation-Park-Note-App-Server)
+
+- [GitHub Code Link - Memory Store Version](https://github.com/davetam88/National-Park-Note-App)
 
 - [User-Flow Diagram](src/images/readme/user-flow.jpg)
-
 
 
 # APP's Screenshots
@@ -93,15 +94,16 @@ The APP's inspiration came from my love of nature and the outdoors, and the unsp
 
 
 ## Built With
-
 * HTML
 * CSS
 * React Router
 * JavaScript
 * ECMAScript 2015 - ES6
 * Flexbox Layout
-* API (2)
-* In Memory Datastore
+* 2 external APIs (YouTube and National Park Service)
+* 1 custom API for App/client database access
+* PostgresSQL used for persistence datastore
+
 
 ## Author
 
