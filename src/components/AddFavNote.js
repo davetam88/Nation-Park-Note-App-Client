@@ -8,7 +8,7 @@ export default function AddFavNote({ history, favParks }) {
 
   const favContext = useContext(MainContext)
   const [parkcode] = useState(favContext.parkcode)
-  const [rating, setRating] = useState("")
+  const [rating, setRating] = useState(1)
   const [note, setNote] = useState("")
 
 
@@ -24,16 +24,15 @@ export default function AddFavNote({ history, favParks }) {
     e.preventDefault();
     const favParksNew = {};
     // add to the end for now. stop number = park nubmer for now 
-    favParksNew.parkname = parkname;
-    favParksNew.statecode = statecode;
     favParksNew.activity = activity;
-    favParksNew.parkcode = parkcode;
-    favParksNew.statename = findStatenameByCode(statecode, stateOptions)
-
     favParksNew.note = note;
-    favParksNew.rating = rating;
-    favParksNew.userid = userRec.id;
+    favParksNew.parkcode = parkcode;
     favParksNew.parknum = favParks.length + 1;
+    favParksNew.rating = Number(rating);
+    favParksNew.statecode = statecode;
+    favParksNew.statename = findStatenameByCode(statecode, stateOptions)
+    favParksNew.userid = userRec.id;
+    favParksNew.parkname = parkname;
     favParksNew.parkdata = parkdata;
 
     favContext.AddFavNoteSubmitCB(favParksNew)

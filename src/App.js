@@ -163,7 +163,7 @@ class App extends Component {
 
 
   async addFavPark(favpark) {
-    //   const response = await fetch('http://localhost:8000/users');
+
     try
     {
       await fetch(config.API_ENDPOINT + `/api/favparks`, {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ParkItem from "./ParkItem";
 import MainContext from '../MainContext';
 import '../App.css'
-
+import { findStateObjByCode } from './Helpers';
 
 class ParkList extends Component {
   static contextType = MainContext;
@@ -15,7 +15,7 @@ class ParkList extends Component {
   }
 
   render() {
-    const { favParks, statecode, activity, fetchparkdata, userRec } = this.context;
+    const { favParks, stateOptions, statecode, activity, fetchparkdata, userRec } = this.context;
 
     if (Object.keys(fetchparkdata).length === 0)
     {
@@ -25,13 +25,16 @@ class ParkList extends Component {
       )
     }
 
+
     const dataLen = fetchparkdata.data.length;
+    const stateOjb = findStateObjByCode(stateOptions, statecode);
+    const stateName = stateOjb.label;
 
     return (
       <>
         <h3 className="overlay-section-heading">
           There Are <em>{dataLen}</em> Parks That Matches Your Search Criteria<br />
-          <em>statecode = {statecode}  :  Activity = {activity}</em>
+          <em>State={stateName}  :  Activity={activity}</em>
         </h3>
         <div className="group-container wrap">
           {

@@ -10,14 +10,15 @@ The APP's inspiration came from my love of nature and the outdoors, and the unsp
 
 # APP's Features
 
-* Select/Display any National Parks by State.
-* Further Narrow down the Park with your choice of Activity.
-* For each park, the APP will show a feature picture of the Park, the Park's official page Link, and address. 
-* Visually explore your favorite park with the 'More Picture' and 'Videos' buttons.
+* Select/Display Any National Parks by State.
+* Further Narrow Down The Park With Your Choice of Activity.
+* For Each Park, The APP Will Show a Feature Picture of The Park, The Park's Official Page Link, And Address. 
+* Visually Explore Your Favorite Park With The 'More Picture' And 'Videos' Buttons.
 * User Can Create His/Her Own Account Via The Registration Page
 * User Can Log in to His/Her Own Account With A Password
 * Logged-in User Can Save a Park to His/Her Account
-* Logged-in User Can Add Notes to His/Her Favorite Park
+* Logged-in User Can Add Note to His/Her Favorite Park
+* Logged-in User Can Rate His/Her Favorite Park
 * Logged-in User Can Sort His/Her Favorite Parks
 
 # Live Demo link and User-Flow Diagram
@@ -93,7 +94,22 @@ The APP's inspiration came from my love of nature and the outdoors, and the unsp
 ![removed_park_as_shown_on_search_page](src/images/readme/removed_park_as_shown_on_search_page.jpg)
 
 
-## Built With
+# Endpoints Used By This APP :
+    ENDPOINTS                 | FUNCTION
+    --------------------------|----------------------------------------------------------
+    GET /users                | read all the user information in the database
+    GET /users/id             | Read a single user record indexed by the user id.
+    GET /favparks             | Read all the favparks stored in the database
+    GET /favparks/id          | Read a single favpark record indexed by the favpark id.
+    DELETE /users/id          | Delete a single user record indexed by the user id.
+    DELETE /favparks/id       | Delete a single favpark record indexed by the favpark id.
+    POST /user                | Create a new user record
+    POST /favpark             | Create a new favpark record
+
+
+
+# Built With
+```
 * HTML
 * CSS
 * React Router
@@ -103,9 +119,11 @@ The APP's inspiration came from my love of nature and the outdoors, and the unsp
 * 2 external APIs (YouTube and National Park Service)
 * 1 custom API for App/client database access
 * PostgresSQL used for persistence datastore
-
+```
 
 ## Author
 
 * David Tam - Full Stack Developer
+* Contact - <davetam88@gmail.com> 
+
 
