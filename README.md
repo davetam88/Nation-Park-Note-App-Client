@@ -21,6 +21,7 @@ The APP's inspiration came from my love of nature and the outdoors, and the unsp
 * Logged-in User Can Rate His/Her Favorite Park
 * Logged-in User Can Sort His/Her Favorite Parks
 
+
 # Live Demo link and User-Flow Diagram
 
 - [Live Demo Link - Vercel](https://national-park-note-app-client.vercel.app/)
@@ -32,6 +33,12 @@ The APP's inspiration came from my love of nature and the outdoors, and the unsp
 - [GitHub Code Link - Memory Store Version](https://github.com/davetam88/National-Park-Note-App)
 
 - [User-Flow Diagram](src/images/readme/user-flow.jpg)
+
+# Project Summary:
+
+This <b>Capstone Project</b> converts the <b>National Park Note APP</b> [Memory Store Version](https://github.com/davetam88/National-Park-Note-App) which use memory as its data store into a persistence datastore version. These API endpoints were provided by [National Park Note APP - Server/API](https://github.com/davetam88/Nation-Park-Note-App-Server) with PostgreSQL as the database engine.
+
+An online version of this client app hosted by [Vercel](https://vercel.com) can be launch [here](https://national-park-note-app-client.vercel.app/). The API endpoint server was deployed online and is hosted by [Heroku](https://heroku.com).
 
 
 # APP's Screenshots
@@ -94,18 +101,18 @@ The APP's inspiration came from my love of nature and the outdoors, and the unsp
 ![removed_park_as_shown_on_search_page](src/images/readme/removed_park_as_shown_on_search_page.jpg)
 
 
-# Endpoints Used By This APP :
-    ENDPOINTS                 | FUNCTION
-    --------------------------|----------------------------------------------------------
-    GET /users                | read all the user information in the database
-    GET /users/id             | Read a single user record indexed by the user id.
-    GET /favparks             | Read all the favparks stored in the database
-    GET /favparks/id          | Read a single favpark record indexed by the favpark id.
-    DELETE /users/id          | Delete a single user record indexed by the user id.
-    DELETE /favparks/id       | Delete a single favpark record indexed by the favpark id.
-    POST /user                | Create a new user record
-    POST /favpark             | Create a new favpark record
-
+# Supported Endpoints:
+    ENDPOINTS                             | FUNCTION
+    --------------------------------------|----------------------------------------------------------
+    GET /api/users                        | read all the user information in the database
+    GET /api/users/id                     | Read a single user record indexed by the user id.
+    GET /api/favparks                     | Read all the favparks stored in the database
+    GET /api/favparks/id                  | Read a single favpark record indexed by the favpark id.
+    GET /api/favparks/favparks-userid/id  | Returns all the favpark records saved by user id.
+    DELETE /api/users/id                  | Delete a single user record indexed by the user id.
+    DELETE /api/favparks/id               | Delete a single favpark record indexed by the favpark id.
+    POST /api/user                        | Create a new user record
+    POST /api/favpark                     | Create a new favpark record
 
 
 # Built With
