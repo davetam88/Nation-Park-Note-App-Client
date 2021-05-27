@@ -57,7 +57,7 @@ class ParkItem extends Component {
     {
       siteAddress = `
             ${itemData.addresses[0].line1}
-            ${itemData.addresses[0].city},  ${itemData.addresses[0].statecode} ${itemData.addresses[0].postalCode} 
+            ${itemData.addresses[0].city},  ${itemData.addresses[0].stateCode} ${itemData.addresses[0].postalCode} 
             `;
     }
 

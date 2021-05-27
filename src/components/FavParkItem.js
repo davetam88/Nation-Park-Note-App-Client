@@ -61,7 +61,7 @@ class FavParkItem extends Component {
     {
       siteAddress = `
             ${parkdata.addresses[0].line1}
-            ${parkdata.addresses[0].city},  ${parkdata.addresses[0].statecode} ${parkdata.addresses[0].postalCode} 
+            ${parkdata.addresses[0].city},  ${parkdata.addresses[0].stateCode} ${parkdata.addresses[0].postalCode} 
             `;
     }
 
